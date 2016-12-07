@@ -4,11 +4,13 @@ import java.awt.*;
 
 //this is the main view class there are subclasses for each screen.
 public class ResearchGUI extends JFrame{
-   public JPanel cards;
    final static String LOGINPANEL = "Login to System";
    final static String FACULTYPANEL = "Faculty Admin";
    final static String SEARCHPANEL = "Search for papers";
    final static String INFOPANEL = "Paper Information";
+   
+   private CardLayout cardlayout = new CardLayout();
+   private JPanel cards = new JPanel(cardlayout);
    
    //this holds all of the components
    public ResearchGUI(){
@@ -16,17 +18,16 @@ public class ResearchGUI extends JFrame{
       //base JPanel
          JPanel jpMain = new JPanel();
          //create the cards
-            //LoginScreen ls = new LoginScreen();
-            FacultyScreen fs = new FacultyScreen();
-            // SearchScreen ss = new SearchScreen();
-//             InfoScreen is = new InfoScreen();
+            LoginScreen ls = new LoginScreen(this);
+            FacultyScreen fs = new FacultyScreen(this);
+            SearchScreen ss = new SearchScreen(this);
+            InfoScreen is = new InfoScreen(this);
             
-            //Create the panel that contains the "cards".
-            cards = new JPanel(new CardLayout());
-            //cards.add(ls, LOGINPANEL);
+            //add all these to cards
+            cards.add(ls, LOGINPANEL);
             cards.add(fs, FACULTYPANEL);
-            // cards.add(ss, SEARCHPANEL);
-//             cards.add(is, INFOPANEL);
+            cards.add(ss, SEARCHPANEL);
+            cards.add(is, INFOPANEL);
          
          jpMain.add(cards, BorderLayout.CENTER);//adds the jPanel to the jframe
       add(jpMain);
@@ -41,4 +42,9 @@ public class ResearchGUI extends JFrame{
    public static void main(String[] args){
       ResearchGUI rg = new ResearchGUI();
    }
+   
+   public void swapView(String key) {
+      cardlayout.show(cards, key);
+   }
+   
 }

@@ -3,7 +3,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SearchScreen extends JPanel{// Search GUI
-   public SearchScreen(){
+   
+   private ResearchGUI reGUI;
+   
+   public SearchScreen(ResearchGUI gui){
+      this.reGUI = gui;
       setLayout(new GridBagLayout());
       GridBagConstraints c = new GridBagConstraints();
 

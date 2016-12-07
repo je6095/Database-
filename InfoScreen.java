@@ -3,7 +3,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class InfoScreen extends JPanel{ //Info GUI
-   public InfoScreen(){
+
+   private ResearchGUI reGUI;
+
+   public InfoScreen(ResearchGUI gui){
+      this.reGUI = gui;
       setLayout(new GridBagLayout());
       GridBagConstraints c = new GridBagConstraints();
       

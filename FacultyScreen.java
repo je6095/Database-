@@ -1,8 +1,9 @@
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class FacultyScreen extends JPanel{ //Faculty Admin GUI
+public class FacultyScreen extends JPanel implements ActionListener{ //Faculty Admin GUI
    
    String[] columnNames = {"Title",
                         "Abstract",
@@ -14,30 +15,34 @@ public class FacultyScreen extends JPanel{ //Faculty Admin GUI
    JRadioButton jrbInsert;
    JRadioButton jrbDelete;
    ButtonGroup group;
+   private ResearchGUI reGUI;
    
-   public FacultyScreen(String email){
+   public FacultyScreen(ResearchGUI gui){
+    this.reGUI = gui;
       setLayout(new BorderLayout());
 //       GridBagConstraints c = new GridBagConstraints();
-      
-      jrbUpdate = new JRadioButton("Update");
-      jrbUpdate.setActionCommand("update");
-      jrbUpdate.setSelected(true);
-
-      jrbInsert = new JRadioButton("Insert");
-      jrbInsert.setActionCommand("insert");
-      
-      jrbDelete = new JRadioButton("Delete");
-      jrbDelete.setActionCommand("delete");
-      
-      ButtonGroup group = new ButtonGroup();
-      group.add(jrbUpdate);
-      group.add(jrbInsert);
-      group.add(jrbDelete);
-      
-      //add(group);
-      add(jrbUpdate,BorderLayout.NORTH);
-      add(jrbInsert,BorderLayout.NORTH);
-      add(jrbDelete,BorderLayout.NORTH);
+      JPanel jpRadio = new JPanel();
+         jrbUpdate = new JRadioButton("Update");
+         jrbUpdate.setActionCommand("update");
+         jrbUpdate.setSelected(true);
+   
+         jrbInsert = new JRadioButton("Insert");
+         jrbInsert.setActionCommand("insert");
+         
+         jrbDelete = new JRadioButton("Delete");
+         jrbDelete.setActionCommand("delete");
+         
+         ButtonGroup group = new ButtonGroup();
+         group.add(jrbUpdate);
+         group.add(jrbInsert);
+         group.add(jrbDelete);
+         
+         //add(group);
+         jpRadio.add(jrbUpdate);
+         jpRadio.add(jrbInsert);
+         jpRadio.add(jrbDelete);
+         
+         add(jpRadio,BorderLayout.NORTH);
       
       //JTable with the data
       
@@ -48,7 +53,7 @@ public class FacultyScreen extends JPanel{ //Faculty Admin GUI
    //for the insert and update buttons
     @Override
     public void actionPerformed(ActionEvent e) {
-      if
+      
     }
     
     public void createObject(){
