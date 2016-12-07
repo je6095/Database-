@@ -1,9 +1,16 @@
-import java.util.*;
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class LoginScreen extends JPanel{ //Login GUI - for logging into the system, checks if you are faculty, student, or other.
-   public LoginScreen(){
+   
+	JTextField jtfUsername;
+	JPasswordField jtfPassword;
+	JButton jbEnter;
+	
+	public LoginScreen(){
       setLayout(new GridBagLayout());
       GridBagConstraints c = new GridBagConstraints();
       
@@ -22,7 +29,7 @@ public class LoginScreen extends JPanel{ //Login GUI - for logging into the syst
       c.gridy = 1;
       add(jlUsername, c);
       
-      JTextField jtfUsername = new JTextField(20);
+      jtfUsername = new JTextField(20);
       c.fill = GridBagConstraints.HORIZONTAL;
       c.gridx = 1;
       c.gridy = 1;
@@ -34,18 +41,41 @@ public class LoginScreen extends JPanel{ //Login GUI - for logging into the syst
       c.gridy = 2;
       add(jlPassword, c);
       
-      JTextField jtfPassword = new JTextField(20);
+      jtfPassword = new JPasswordField(20);
       c.fill = GridBagConstraints.HORIZONTAL;
       c.gridx = 1;
       c.gridy = 2;
       add(jtfPassword, c);
       
-      JButton jbEnter = new JButton("Enter");
+      jbEnter = new JButton("Enter");
       c.fill = GridBagConstraints.HORIZONTAL;
       c.weightx = 0.0;
       c.gridwidth = 2;
       c.gridx = 1;
       c.gridy = 3;
       add(jbEnter, c);
+   }
+   
+   public void actionPerformed(ActionEvent e) throws ClassNotFoundException, SQLException
+   {
+	   String user = jtfUsername.getText();
+	   String pass = jtfPassword.getText().trim();
+	   if(user.isEmpty() || pass.isEmpty())
+	   {
+		   JOptionPane.showMessageDialog(this, "Enter a username or password.");
+	   }
+	   else
+	   {
+		   ConnectDB db = new ConnectDB();
+		   faculty obj = new faculty(user, db);
+		   if(obj.login(user, pass) == true)
+		   {
+		   	   JOptionPane.showMessageDialog(this, "Login Successful.");
+		   }
+		   else
+		   {
+			  System.out.println("Failed"); 
+		   }
+	   }
    }
 }
