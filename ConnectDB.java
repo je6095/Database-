@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.*;
 
 public class ConnectDB 
 {
@@ -58,25 +59,28 @@ public class ConnectDB
 		 return isClosed;
 	}
 	
-	
-	public boolean getLogin(String userQuery , String passQuery) throws SQLException 
-	{
-		boolean credible = false;
-		st = con.createStatement();
-		try
-		{
-			rs = st.executeQuery(userQuery);
-			rs = st.executeQuery(passQuery);
-			credible = true;
-		}
-		catch(SQLException e)
-		{
-			System.out.println(e.getMessage());
-			credible = false;
-		}
-		return credible;
-	}
-	
+	public ArrayList<ArrayList<String>> getData(String sqlString) {
+      Statement stmt = null;
+      ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+      try {
+        stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sqlString);
+        ResultSetMetaData rsmd = rs.getMetaData();
+        while (rs.next()) {
+            ArrayList<String> tempArray = new ArrayList<String>();
+            tempArray.add(String.valueOf(rs.getInt("EquipID")));
+            tempArray.add(rs.getString("EquipmentName"));
+            tempArray.add(rs.getString("EquipmentDescription"));
+            tempArray.add(String.valueOf(rs.getInt("EquipmentCapacity")));
+            data.add(tempArray);
+        }
+        return data;
+      } catch (SQLException sqle) {
+         sqle.printStackTrace();
+      }
+      return data;
+   }//end of getData;
+
 	public boolean setData( String query )
 	{
 		boolean updated = false;

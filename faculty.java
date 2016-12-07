@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.*;
 
 public class faculty{
    //all the private fields that map to faculty table columns
@@ -63,13 +64,23 @@ public class faculty{
       this.email = temp;
    }
    
-   public boolean login( String user , String pass ) throws SQLException
+   public boolean login(String email)
    {
-	   Boolean isCredible = false;
-	   String use = "SELECT * from faculty WHERE email = " + user;
-	   String password = "SELECT * from faculty WHERE password = " + pass;
-	   isCredible = database.getLogin(use, password);
-	   return isCredible;
+	   try{
+         String sqlString = "SELECT password FROM faculty WHERE email =" +email;
+         ArrayList<ArrayList<String>> sqlData = database.getData(sqlString);
+         for(ArrayList<String> row : sqlData){
+            for (String info : row){
+               if(this.password = info){
+                  return true;
+               }else{
+                  return false;
+               }
+            }
+         }
+      }catch(SQLException e){
+         e.printStackTrace();
+      }
    }
    
 }
