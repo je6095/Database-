@@ -6,11 +6,11 @@ public class BusinessLayer
 	private String lname;
 	private String password;
 	private String email;
-	private Connect database;
+	private ConnectDB database;
 	
 	public BusinessLayer()
 	{
-		database = new Connect();
+		database = new ConnectDB();
 		id = 0;
 		fname = "";
 		lname = "";
@@ -18,14 +18,14 @@ public class BusinessLayer
 		email = "";
 	}
 	
-	public BusinessLayer( int id , Connect database)
+	public BusinessLayer( int id , ConnectDB database)
 	{
 		this.id = id;
 		this.database = database;
 		
 	}
 	
-	public BusinessLayer(int id, String fname, String lname, String password, String email, Connect database )
+	public BusinessLayer(int id, String fname, String lname, String password, String email, ConnectDB database )
 	{
 		this.id = id;
 		this.fname = fname;
@@ -33,6 +33,11 @@ public class BusinessLayer
 		this.password = password;
 		this.email = email;
 		this.database = database;
-		
 	}
+	
+	public void statements( String query)
+	{
+		database.setData(query);
+	}
+	
 }
