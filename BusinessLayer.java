@@ -1,3 +1,6 @@
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 
 public class BusinessLayer 
 {
@@ -18,7 +21,7 @@ public class BusinessLayer
 		email = "";
 	}
 	
-	public BusinessLayer( int id , ConnectDB database)
+	public BusinessLayer( String email , ConnectDB database)
 	{
 		this.id = id;
 		this.database = database;
@@ -34,6 +37,25 @@ public class BusinessLayer
 		this.email = email;
 		this.database = database;
 	}
+	
+	public boolean login(String email)
+	   {
+		   try{
+	         String sqlString = "SELECT password FROM faculty WHERE email =" +email;
+	         ArrayList<ArrayList<String>> sqlData = database.getFacultyData(sqlString);
+	         for(ArrayList<String> row : sqlData){
+	            for (String info : row){
+	               if(this.password = info){
+	                  return true;
+	               }else{
+	                  return false;
+	               }
+	            }
+	         }
+	      }catch(SQLException e){
+	         e.printStackTrace();
+	      }
+	   }
 	
 	public void statements( String query)
 	{
