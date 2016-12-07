@@ -11,6 +11,15 @@ public class faculty{
    // database field email VARCHAR(45)
    private String email;
    
+   protected ConnectDB database;
+   
+   public faculty( String fname , ConnectDB database )
+   {
+	   this.database = database;
+	   this.fname = fname;
+   }
+   
+   
    //getter for id -> you shouldn't be able to set the id as it is a primary key
    public int getId(){
       return this.id;
@@ -31,7 +40,7 @@ public class faculty{
    }
    
    public void setLname(String temp){
-      this.lnames = temp;
+      this.lname = temp;
    }
    
    //getters and setters for password
@@ -51,4 +60,15 @@ public class faculty{
    public void setEmail(String temp){
       this.email = temp;
    }
+   
+   public boolean login( String user , String pass )
+   {
+	   Boolean isCredible = false;
+	   if(getFname().equals(user) && getPassword().equals(pass))
+	   {
+		   isCredible = true;
+	   }
+	   return isCredible;
+   }
+   
 }
