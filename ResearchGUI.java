@@ -18,13 +18,13 @@ public class ResearchGUI extends JFrame{
       //base JPanel
          JPanel jpMain = new JPanel();
          //create the cards
-            LoginScreen ls = new LoginScreen(this);
+            //LoginScreen ls = new LoginScreen(this);
             FacultyScreen fs = new FacultyScreen(this);
             SearchScreen ss = new SearchScreen(this);
             InfoScreen is = new InfoScreen(this);
             
             //add all these to cards
-            cards.add(ls, LOGINPANEL);
+           // cards.add(ls, LOGINPANEL);
             cards.add(fs, FACULTYPANEL);
             cards.add(ss, SEARCHPANEL);
             cards.add(is, INFOPANEL);

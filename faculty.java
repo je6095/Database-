@@ -19,7 +19,7 @@ public class faculty{
    public faculty( String fname , ConnectDB database )
    {
 	   this.database = database;
-	   this.fname = fname;
+	   this.email = fname;
    }
    
    

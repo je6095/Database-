@@ -3,13 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class FacultyScreen extends JPanel implements ActionListener{ //Faculty Admin GUI
-   
-   String[] columnNames = {"Title",
-                        "Abstract",
-                        "Citation"
-                                 };
-   Object[][] tableData = null;                           
+public class FacultyScreen extends JPanel implements ActionListener{ //Faculty Admin GUI                         
    
    JRadioButton jrbUpdate;
    JRadioButton jrbInsert;
@@ -20,7 +14,7 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
    public FacultyScreen(ResearchGUI gui){
     this.reGUI = gui;
       setLayout(new BorderLayout());
-//       GridBagConstraints c = new GridBagConstraints();
+      GridBagConstraints c = new GridBagConstraints();
       JPanel jpRadio = new JPanel();
          jrbUpdate = new JRadioButton("Update");
          jrbUpdate.setActionCommand("update");
@@ -44,7 +38,42 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
          
          add(jpRadio,BorderLayout.NORTH);
       
-      //JTable with the data
+      JPanel jpData = new JPanel(new GridBagLayout());
+         JLabel jlTitle = new JLabel("Title");
+         c.fill = GridBagConstraints.HORIZONTAL;
+         c.anchor = GridBagConstraints.WEST;
+         c.gridx = 0;
+         c.gridy = 0;
+         jpData.add(jlTitle, c);
+
+         JTextField jtfTitle = new JTextField(30);
+         c.fill = GridBagConstraints.HORIZONTAL;
+         c.anchor = GridBagConstraints.WEST;
+         c.gridx = 1;
+         c.gridy = 0;
+         jpData.add(jtfTitle,c);
+         
+         JLabel jlCitation = new JLabel("Citation");
+         c.fill = GridBagConstraints.HORIZONTAL;
+         c.anchor = GridBagConstraints.EAST;
+         c.gridx = 0;
+         c.gridy = 1;
+         jpData.add(jlCitation,c);
+         
+         JTextField jtfCitation = new JTextField(30);
+         c.fill = GridBagConstraints.HORIZONTAL;
+         c.anchor = GridBagConstraints.EAST;
+         c.gridx = 1;
+         c.gridy = 1;
+         jpData.add(jtfCitation,c);
+         
+         JTextArea jtaAbstract = new JTextArea(50,50);
+         c.fill = GridBagConstraints.HORIZONTAL;
+         c.gridx = 0;
+         c.gridy = 2;
+         jpData.add(jtaAbstract,c);
+         
+      add(jpData,BorderLayout.CENTER);
       
       JButton jbEnter = new JButton("Enter");
       add(jbEnter,BorderLayout.SOUTH);
