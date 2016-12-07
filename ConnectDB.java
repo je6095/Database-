@@ -57,4 +57,40 @@ public class ConnectDB
 	     }
 		 return isClosed;
 	}
+	
+	/**
+	public void getLogin(String query) throws SQLException 
+	{
+		st = con.createStatement();
+		try
+		{
+			rs = st.executeQuery(query);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int col = rsmd.getColumnCount();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	**/
+	
+	public boolean setData( String query )
+	{
+		boolean updated = false;
+		try
+		{
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			updated = true;
+			System.out.println("Query Successful");
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Error");
+			updated = false;
+		}
+		return updated;
+	}
+	
 }	
