@@ -66,12 +66,14 @@ public class ConnectDB
         stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(sqlString);
         ResultSetMetaData rsmd = rs.getMetaData();
-        while (rs.next()) {
+        int col = rsmd.getColumnCount();
+        while (rs.next()) 
+        {
             ArrayList<String> tempArray = new ArrayList<String>();
-            tempArray.add(String.valueOf(rs.getInt("EquipID")));
-            tempArray.add(rs.getString("EquipmentName"));
-            tempArray.add(rs.getString("EquipmentDescription"));
-            tempArray.add(String.valueOf(rs.getInt("EquipmentCapacity")));
+            for (int i = 1; i <= col; i++) 
+			{
+            	tempArray.add(rs.getString(i));
+		    }
             data.add(tempArray);
         }
         return data;
