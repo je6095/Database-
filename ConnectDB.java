@@ -59,10 +59,12 @@ public class ConnectDB
 		 return isClosed;
 	}
 	
-	public ArrayList<ArrayList<String>> getData(String sqlString) {
+	public ArrayList<ArrayList<String>> getFacultyData(String sqlString) 
+	{
       Statement stmt = null;
       ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-      try {
+      try 
+     {
         stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(sqlString);
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -70,18 +72,47 @@ public class ConnectDB
         while (rs.next()) 
         {
             ArrayList<String> tempArray = new ArrayList<String>();
-            for (int i = 1; i <= col; i++) 
-			{
-            	tempArray.add(rs.getString(i));
-		    }
+            tempArray.add(String.valueOf(rs.getInt("id")));
+            tempArray.add(rs.getString("fname"));
+            tempArray.add(rs.getString("lname"));
+            tempArray.add(rs.getString("email"));
+            tempArray.add(rs.getString("password"));
             data.add(tempArray);
-        }
         return data;
-      } catch (SQLException sqle) {
+        }
+      } 
+      catch (SQLException sqle) {
          sqle.printStackTrace();
       }
       return data;
    }//end of getData;
+	
+	public ArrayList<ArrayList<String>> getPapersData(String sqlString) 
+	{
+      Statement stmt = null;
+      ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+      try 
+     {
+        stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sqlString);
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int col = rsmd.getColumnCount();
+        while (rs.next()) 
+        {
+            ArrayList<String> tempArray = new ArrayList<String>();
+            tempArray.add(String.valueOf(rs.getInt("id")));
+            tempArray.add(rs.getString("title"));
+            tempArray.add(rs.getString("abstract"));
+            tempArray.add(rs.getString("citation"));
+            data.add(tempArray);
+        return data;
+        }
+      } 
+      catch (SQLException sqle) {
+         sqle.printStackTrace();
+      }
+      return data;
+	}
 
 	public boolean setData( String query )
 	{
