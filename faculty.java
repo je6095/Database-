@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 public class faculty{
    //all the private fields that map to faculty table columns
 	// database field id (INT)
@@ -61,13 +63,12 @@ public class faculty{
       this.email = temp;
    }
    
-   public boolean login( String user , String pass )
+   public boolean login( String user , String pass ) throws SQLException
    {
 	   Boolean isCredible = false;
-	   if(getFname().equals(user) && getPassword().equals(pass))
-	   {
-		   isCredible = true;
-	   }
+	   String use = "SELECT * from faculty WHERE email = " + user;
+	   String password = "SELECT * from faculty WHERE password = " + pass;
+	   isCredible = database.getLogin(use, password);
 	   return isCredible;
    }
    

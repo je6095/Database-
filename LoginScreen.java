@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,14 +84,20 @@ public class LoginScreen extends JPanel implements ActionListener{ // extends JP
    	   {
    		   ConnectDB db = new ConnectDB();
    		   faculty obj = new faculty(user, db);
-   		   if(obj.login(user, pass) == true)
+   		   try 
    		   {
-   		   	   JOptionPane.showMessageDialog(this, "Login Successful.");
-   		   }
-   		   else
-   		   {
-   			  System.out.println("Failed"); 
-   		   }
+   			   if(obj.login(user, pass) == true)
+			   {
+			   	   JOptionPane.showMessageDialog(this, "Login Successful.");
+			   }
+			   else
+			   {
+				  System.out.println("Failed"); 
+			   }
+		} catch (HeadlessException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
    	   }//end if
       }else if(e.getSource() == jbMiscStudent){
          reGUI.swapView("Search for papers");

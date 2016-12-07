@@ -58,22 +58,24 @@ public class ConnectDB
 		 return isClosed;
 	}
 	
-	/**
-	public void getLogin(String query) throws SQLException 
+	
+	public boolean getLogin(String userQuery , String passQuery) throws SQLException 
 	{
+		boolean credible = false;
 		st = con.createStatement();
 		try
 		{
-			rs = st.executeQuery(query);
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int col = rsmd.getColumnCount();
+			rs = st.executeQuery(userQuery);
+			rs = st.executeQuery(passQuery);
+			credible = true;
 		}
 		catch(SQLException e)
 		{
 			System.out.println(e.getMessage());
+			credible = false;
 		}
+		return credible;
 	}
-	**/
 	
 	public boolean setData( String query )
 	{
