@@ -3,18 +3,30 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FacultyScreen extends JPanel{ //Faculty Admin GUI
-   public FacultyScreen(){
-      // setLayout(new GridBagLayout());
+   
+   String[] columnNames = {"Title",
+                        "Abstract",
+                        "Citation"
+                                 };
+   Object[][] tableData = null;                           
+   
+   JRadioButton jrbUpdate;
+   JRadioButton jrbInsert;
+   JRadioButton jrbDelete;
+   ButtonGroup group;
+   
+   public FacultyScreen(String email){
+      setLayout(new BorderLayout());
 //       GridBagConstraints c = new GridBagConstraints();
       
-      JRadioButton jrbUpdate = new JRadioButton("Update");
+      jrbUpdate = new JRadioButton("Update");
       jrbUpdate.setActionCommand("update");
       jrbUpdate.setSelected(true);
 
-      JRadioButton jrbInsert = new JRadioButton("Insert");
+      jrbInsert = new JRadioButton("Insert");
       jrbInsert.setActionCommand("insert");
       
-      JRadioButton jrbDelete = new JRadioButton("Delete");
+      jrbDelete = new JRadioButton("Delete");
       jrbDelete.setActionCommand("delete");
       
       ButtonGroup group = new ButtonGroup();
@@ -23,11 +35,23 @@ public class FacultyScreen extends JPanel{ //Faculty Admin GUI
       group.add(jrbDelete);
       
       //add(group);
-      add(jrbUpdate);
-      add(jrbInsert);
-      add(jrbDelete);
+      add(jrbUpdate,BorderLayout.NORTH);
+      add(jrbInsert,BorderLayout.NORTH);
+      add(jrbDelete,BorderLayout.NORTH);
+      
+      //JTable with the data
       
       JButton jbEnter = new JButton("Enter");
-      add(jbEnter);
-   }
+      add(jbEnter,BorderLayout.SOUTH);
+   }//end of constructor
+   
+   //for the insert and update buttons
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if
+    }
+    
+    public void createObject(){
+    
+    }
 }
