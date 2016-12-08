@@ -78,26 +78,40 @@ public class LoginScreen extends JPanel implements ActionListener{ // extends JP
    	   String pass = jtfPassword.getText().trim();
    	   if(user.isEmpty() || pass.isEmpty())
    	   {
-   		   JOptionPane.showMessageDialog(this, "Enter a username or password.");
+   		   JOptionPane.showMessageDialog(this, "Enter an email or password.");
    	   }
    	   else
    	   {
    		   ConnectDB db = new ConnectDB();
-   		   faculty obj = new faculty(user, db);
+   		   BusinessLayer obj = new BusinessLayer(user, db);
    		   try 
    		   {
-   			   if(obj.login(user, pass) == true)
-			   {
-			   	   JOptionPane.showMessageDialog(this, "Login Successful.");
-			   }
-			   else
-			   {
-				  System.out.println("Failed"); 
-			   }
-		} catch (HeadlessException | SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+   			   if(db.connect())
+   			   {
+   				   System.out.println("Connected to Database");
+   				   obj.fetchFaculty();
+   				   
+   				   if(obj.login(user, pass) == true)
+   				   {
+   					   JOptionPane.showMessageDialog(this, "Login Successful.");
+   					   reGUI.swapView("Faculty Admin");
+   				   }
+   				   else
+   				   {
+   					   System.out.println("Failed");
+   					   db.close();
+   				   }
+   			   	}
+   			 } catch (HeadlessException e1) {
+   				  // TODO Auto-generated catch block
+   				  e1.printStackTrace();
+   			 } catch (SQLException e1) {
+   				  // TODO Auto-generated catch block
+   				  e1.printStackTrace();
+   			 } catch (ClassNotFoundException e1) {
+   				 // TODO Auto-generated catch block
+   				 e1.printStackTrace();
+   			 }
    	   }//end if
       }else if(e.getSource() == jbMiscStudent){
          reGUI.swapView("Search for papers");
