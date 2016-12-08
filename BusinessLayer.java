@@ -28,6 +28,7 @@ public class BusinessLayer
 		email = "";
 	}
 	
+	//Constructor for Login
 	public BusinessLayer( String email , ConnectDB database)
 	{
 		this.email = email;
@@ -43,6 +44,23 @@ public class BusinessLayer
 		this.password = password;
 		this.email = email;
 		this.database = database;
+	}
+	
+	//Constructor for Update
+		public BusinessLayer( int id, ConnectDB database )
+		{
+			this.id = id;
+			this.database = database;
+		}
+		
+	//Constructor for Insert
+	public BusinessLayer( ConnectDB database )
+	{
+		this.database = database;
+		id = 0;
+		title = "";
+		ab = "";
+		citation = "";
 	}
 	
 	//Accessory
@@ -165,6 +183,13 @@ public class BusinessLayer
 		
 	}
 	
+	/**
+	 To INSERT the gui will make a new BusinessLayer object and call the constructor used for Insert *SEE ABOVE*
+	 from there the gui should prompt the user to enter in values into text fields for title, abstract, and citation
+	 the gui will call the insert() method with the entered in values as parameters
+	 INSERT uses a prepared statement and an arraylist filled with the parameter values. 
+	 INSERT then calls setData which should execute the query and a New entry will be created.  
+	**/
 	public void insert( int id , String title, String ab, String citation ) throws SQLException
 	{
 		String query = "INSERT INTO papers (" + id + ",'" + title + "','" + ab + "'," + citation + ")" + " VALUES " + "(?,?,?,?)";
@@ -176,7 +201,15 @@ public class BusinessLayer
 		database.setData(query, set);
 	}
 	
-	public void Update( int id , String title, String ab, String citation ) throws SQLException
+	/**
+	 To UPDATE the gui will make a new BusinessLayer object and call the constructor used for Insert *SEE ABOVE*
+	 the gui should then call the fetchPapers() method to get the info for the row that is to be updated
+	 from there the gui should prompt the user to enter in values into text fields for title, abstract, and citation that are to be updated
+	 the gui will call the update() method with the entered in values as parameters
+	 UPDATE uses a prepared statement and an arraylist filled with the parameter values. 
+	 UPDATE then calls setData which should execute the query and a New entry will be created.  
+	**/
+	public void update( int id , String title, String ab, String citation ) throws SQLException
 	{
 		String query = "UPDATE papers SET title = ?" + ",abstract = ?" + " ,citation = ?" + " WHERE id = ?;";
 		ArrayList<String> set = new ArrayList<String>();
@@ -187,6 +220,12 @@ public class BusinessLayer
 		database.setData( query, set);
 	}
 	
+	/**
+	 To DELETE the gui will prompt the user to select which paper to delete
+	 the gui will get that papers id and call the DELETE method with the id as a parameter
+	 DELETE uses a prepared statement and an arraylist filled with the parameter values. 
+	 DELETE then calls setData which should execute the query and the entry will be deleted.  
+	**/
 	public void delete(int id) throws SQLException
 	{
 		String query = "DELETE FROM papers WHERE id = ?;";
