@@ -7,10 +7,10 @@ public class ConnectDB
 	public Statement st;
 	public ResultSet rs;
 	
-	String uri = "jdbc:mysql://localhost:3306/Research";
+	String uri = "jdbc:mysql://localhost:3306/FacResearchDB";
     String driver = "com.mysql.jdbc.Driver";
     String user = "root";
-    String password = "";//student
+    String password = "hjkoq59gh";//student
 	
 //	  String uri = "jdbc:sqlserver://theodore.ist.rit.edu;databaseName=Jobs";
 //    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -69,6 +69,7 @@ public class ConnectDB
         ResultSet rs = stmt.executeQuery(sqlString);
         ResultSetMetaData rsmd = rs.getMetaData();
         int col = rsmd.getColumnCount();
+        
         while (rs.next()) 
         {
             ArrayList<String> tempArray = new ArrayList<String>();
@@ -78,7 +79,7 @@ public class ConnectDB
             tempArray.add(rs.getString("email"));
             tempArray.add(rs.getString("password"));
             data.add(tempArray);
-        return data;
+            return data;
         }
       } 
       catch (SQLException sqle) {
@@ -113,14 +114,29 @@ public class ConnectDB
       }
       return data;
 	}
-
-	public boolean setData( String query )
+	
+	public PreparedStatement prepare( String query, ArrayList<String> list ) throws SQLException
 	{
-		boolean updated = false;
+		PreparedStatement stmt = null;
 		try
 		{
-			Statement st = con.createStatement();
-			st.executeUpdate(query);
+			stmt = con.prepareStatement(query);
+			
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}	
+		return stmt;
+	}
+
+	public boolean setData( String query, ArrayList<String> set ) throws SQLException
+	{	
+		boolean updated = false;
+		PreparedStatement st = prepare(query, set);
+		try
+		{
+			rs = st.executeQuery();
 			updated = true;
 			System.out.println("Query Successful");
 		}
@@ -131,5 +147,4 @@ public class ConnectDB
 		}
 		return updated;
 	}
-	
 }	
