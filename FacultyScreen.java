@@ -88,6 +88,14 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
             System.out.println("Insert");
          }else if(actionSelection == "Delete"){
             System.out.println("Delete");
+            int paper_id = (int)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(),3);
+            try{
+                reGUI.getFaculty().delete(paper_id);
+                // clearTable();
+//                 fillTable();
+             }catch(SQLException se){
+                se.printStackTrace();
+             }
          }
       }
     }
