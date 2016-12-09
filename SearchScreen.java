@@ -1,40 +1,103 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
 import java.util.*;
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.table.*;
 
-public class SearchScreen extends JPanel{// Search GUI
+public class SearchScreen extends JPanel implements ActionListener{// Search GUI
    
    private ResearchGUI reGUI;
+   private JTextField keywordField = new JTextField(20);
+   private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation"}, 0));
+   private JButton searchButton;
+   private JButton refreshButton;
    
    public SearchScreen(ResearchGUI gui){
-      this.reGUI = gui;
-      setLayout(new GridBagLayout());
-      GridBagConstraints c = new GridBagConstraints();
+    setLayout(new BorderLayout());
+    
+    JPanel searchPanel = new JPanel(new FlowLayout());
+    searchPanel.add(new JLabel("Keyword: "));
+    searchPanel.add(keywordField);
+    
+    JButton searchButton = new JButton("Search");
+    searchButton.addActionListener(this);
+    searchPanel.add(searchButton);
+    
+    JButton refreshButton = new JButton("Refresh");
+    refreshButton.addActionListener(this);
+    searchPanel.add(refreshButton);
+    
+    add(BorderLayout.NORTH, searchPanel);
+    add(BorderLayout.CENTER, new JScrollPane(resultsTable));
+    
+    fillTable();
+      
+   }
+   
+   public void actionPerformed(ActionEvent e) {
+      Object src = e.getSource();
+      // if(src == searchButton){
+         System.out.println("search");
+         ConnectDB db = new ConnectDB();
+		   BusinessLayer bl = new BusinessLayer(db);
+		   try 
+		   {
+			   if(db.connect())
+			   {
+               System.out.println("Connected to Database");
+               String keyword = keywordField.getText().trim();
+    
+                if (keyword.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Enter a keyword.");
+                    return;
+                }
+            
+               //clear the table
+               clearTable();
 
-      JLabel jlSearch = new JLabel("<html><h1>Search</h1></html>");
-      c.fill = GridBagConstraints.HORIZONTAL;
-      c.gridx = 0;
-      c.gridy = 0;
-      add(jlSearch, c);
+               ((DefaultTableModel) resultsTable.getModel()).addRow(bl.keywordSearch(keyword));
+            }
+          }catch(SQLException se){
+            se.printStackTrace();
+          }catch(ClassNotFoundException ce){
+            ce.printStackTrace();
+          }
       
-      JTextField jtfSearch = new JTextField(30);
-      c.fill = GridBagConstraints.HORIZONTAL;
-      c.gridx = 0;
-      c.gridy = 1;
-      add(jtfSearch, c);
-      
-      JButton jbSearch = new JButton("Enter");
-      c.fill = GridBagConstraints.HORIZONTAL;
-      c.gridx = 1;
-      c.gridy = 1;
-      add(jbSearch, c);
-      
-      JPanel jpResults = new JPanel();//this panel shows the results
-      jpResults.setPreferredSize(new Dimension(800, 800));
-      c.fill = GridBagConstraints.HORIZONTAL;
-      c.gridx = 0;
-      c.gridy = 2;
-      add(jpResults, c);
-      
+      // }else if(src == refreshButton){
+//          System.out.println("refresh");
+//          clearTable();
+//          fillTable();
+//       }
+         
+   }//end actionPRepared
+   
+   public void fillTable(){
+      ConnectDB db = new ConnectDB();
+		   BusinessLayer bl = new BusinessLayer(db);
+		   try 
+		   {
+			   if(db.connect())
+			   {
+               System.out.println("Connected to Database");
+            
+               //clear the table
+               clearTable();
+               ArrayList<Object[]> papers = bl.getAllPapers(); // returns arraylist of objects
+               for(int i=0;i<papers.size();i++){
+                  ((DefaultTableModel) resultsTable.getModel()).addRow(papers.get(i));
+               }
+            }
+          }catch(SQLException se){
+            se.printStackTrace();
+          }catch(ClassNotFoundException ce){
+            ce.printStackTrace();
+          }
+   }
+   
+   public void clearTable(){
+      while (((DefaultTableModel) resultsTable.getModel()).getRowCount() > 0) {
+         ((DefaultTableModel) resultsTable.getModel()).removeRow(0);
+      }
    }
 }

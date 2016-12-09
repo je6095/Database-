@@ -1,6 +1,6 @@
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 
 public class BusinessLayer 
 {
@@ -248,5 +248,54 @@ public class BusinessLayer
 		}
 		return credible;
 	}
+   
+   public Object[] keywordSearch(String keyword){
+      //System.out.println("in keywordSearch - keyword = " +keyword);
+      Object[] paperInfo = null;
+      try {
+        ArrayList<String> keys = new ArrayList<String>();
+        keys.add(keyword);
+        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers, paper_keywords WHERE papers.id = paper_keywords.id AND paper_keywords.keyword = ?";
+        
+        PreparedStatement stmt = database.prepare(sql,keys);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            String title = rs.getString(1);
+            String abstracts = rs.getString(2);
+            String citation = rs.getString(3);
+            
+            //((DefaultTableModel) resultsTable.getModel()).addRow(new Object[]{title,abstracts,citation});
+            paperInfo = new Object[]{title,abstracts,citation};
+        }
+       } catch (Exception ex) {
+           ex.printStackTrace(System.out);
+       }
+       return paperInfo;
+   }
+   
+   public ArrayList<Object[]> getAllPapers(){
+      ArrayList<Object[]> papers = new ArrayList<Object[]>();
+      
+      try {
+        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers";
+        
+        PreparedStatement stmt = database.prepare(sql,new ArrayList<String>());
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            String title = rs.getString(1);
+            String abstracts = rs.getString(2);
+            String citation = rs.getString(3);
+
+            Object[] temp = new Object[]{title,abstracts,citation};
+            papers.add(temp);
+        }
+       } catch (Exception ex) {
+           ex.printStackTrace(System.out);
+       }
+      
+      return papers;
+   }
 	
 }

@@ -10,6 +10,7 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
    JRadioButton jrbDelete;
    ButtonGroup group;
    private ResearchGUI reGUI;
+   private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation"}, 0));
    
    public FacultyScreen(ResearchGUI gui){
     this.reGUI = gui;
@@ -67,11 +68,6 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
          c.gridy = 1;
          jpData.add(jtfCitation,c);
          
-         JTextArea jtaAbstract = new JTextArea(50,50);
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.gridx = 0;
-         c.gridy = 2;
-         jpData.add(jtaAbstract,c);
          
       add(jpData,BorderLayout.CENTER);
       

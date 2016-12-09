@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class ConnectDB 
 {
@@ -10,7 +12,7 @@ public class ConnectDB
 	String uri = "jdbc:mysql://localhost:3306/FacResearchDB";
     String driver = "com.mysql.jdbc.Driver";
     String user = "root";
-    String password = "hjkoq59gh";//student
+    String password = "";//student
 	
 //	  String uri = "jdbc:sqlserver://theodore.ist.rit.edu;databaseName=Jobs";
 //    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -120,7 +122,15 @@ public class ConnectDB
 		PreparedStatement stmt = null;
 		try
 		{
+         //System.out.println("in prepare");
 			stmt = con.prepareStatement(query);
+         //if there is stuff in the list then we set them as variables
+         if(list.size() > 0){
+            for(int i=1;i<=list.size();i++){
+               String temp = list.get(i-1);
+               stmt.setString(i,temp);
+            }
+         }
 			
 		}
 		catch(SQLException e)

@@ -24,7 +24,6 @@ public class LoginScreen extends JPanel implements ActionListener{ // extends JP
       c.gridx = 0;
       c.gridy = 0;
       add(jlLogin, c);
-
       
       //labels
       JLabel jlUsername = new JLabel("Email: ");
