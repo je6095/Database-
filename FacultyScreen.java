@@ -13,8 +13,8 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
    private ButtonGroup group;
    private ResearchGUI reGUI;
    private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation"}, 0));
-   JButton jbAll;
-   JButton jbEnter;
+   private JButton jbAll;
+   private JButton jbEnter;
    
    public FacultyScreen(ResearchGUI gui){
     this.reGUI = gui;
@@ -22,16 +22,16 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
       GridBagConstraints c = new GridBagConstraints();
       JPanel jpRadio = new JPanel();
          jrbUpdate = new JRadioButton("Update");
-         jrbUpdate.setActionCommand("update");
+         jrbUpdate.setActionCommand("Update");
          jrbUpdate.setSelected(true);
    
          jrbInsert = new JRadioButton("Insert");
-         jrbInsert.setActionCommand("insert");
+         jrbInsert.setActionCommand("Insert");
          
          jrbDelete = new JRadioButton("Delete");
-         jrbDelete.setActionCommand("delete");
+         jrbDelete.setActionCommand("Delete");
          
-         ButtonGroup group = new ButtonGroup();
+         group = new ButtonGroup();
          group.add(jrbUpdate);
          group.add(jrbInsert);
          group.add(jrbDelete);
@@ -63,7 +63,20 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
    
    //for the insert and update buttons
     public void actionPerformed(ActionEvent e) {
-      System.out.println("they hit enter");
+      //get the selectied radio button
+      String actionSelection = group.getSelection().getActionCommand();
+      int rowIndex = resultsTable.getSelectedRow();
+      if(rowIndex == -1){
+         JOptionPane.showMessageDialog(this, "Please select a row.");
+      }else{
+         if(actionSelection == "Update"){
+            System.out.println("Update");
+         }else if(actionSelection == "Insert"){
+            System.out.println("Insert");
+         }else if(actionSelection == "Delete"){
+            System.out.println("Delete");
+         }
+      }
     }
    
    public void fillTable(){
@@ -77,4 +90,5 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
           }catch(Exception e){
             e.printStackTrace();
           }
-   }}
+   }//end fillTable
+ }
