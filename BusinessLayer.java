@@ -278,6 +278,7 @@ public class BusinessLayer
       ArrayList<Object[]> papers = new ArrayList<Object[]>();
       
       try {
+         
         String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers";
         
         PreparedStatement stmt = database.prepare(sql,new ArrayList<String>());
@@ -302,10 +303,8 @@ public class BusinessLayer
       ArrayList<Object[]> papers = new ArrayList<Object[]>();
       
       try {
-        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers"+
-                      "INNER JOIN authorship ON papers.id = authorship.paperId" +
-                      "INNER JOIN faculty ON authorship.facultyId = faculty.id" +
-                      "WHERE faculty.id="+id;
+         System.out.println();
+        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers INNER JOIN authorship ON papers.id = authorship.paperId INNER JOIN faculty ON authorship.facultyId = faculty.id WHERE faculty.id="+id;
         
         PreparedStatement stmt = database.prepare(sql,new ArrayList<String>());
         ResultSet rs = stmt.executeQuery();

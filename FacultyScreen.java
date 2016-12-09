@@ -67,25 +67,14 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
     }
    
    public void fillTable(){
-      ConnectDB db = new ConnectDB();
-	   BusinessLayer bl = reGUI.getFaculty();
-	   try 
-	   {
-		   if(db.connect())
+		   try 
 		   {
-            System.out.println("Connected to Database");
-            
             int id = reGUI.getFaculty().getID();
-
-            ArrayList<Object[]> papers = bl.getFacultyPapers(id); // returns arraylist of objects
+            ArrayList<Object[]> papers = reGUI.getFaculty().getFacultyPapers(id); // returns arraylist of objects
             for(int i=0;i<papers.size();i++){
                ((DefaultTableModel) resultsTable.getModel()).addRow(papers.get(i));
             }
-         }
-       }catch(SQLException se){
-         se.printStackTrace();
-       }catch(ClassNotFoundException ce){
-         ce.printStackTrace();
-       }
-   }
-}
+          }catch(Exception e){
+            e.printStackTrace();
+          }
+   }}

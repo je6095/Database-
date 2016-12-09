@@ -27,6 +27,7 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
     refreshButton = new JButton("Refresh");
     refreshButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e){
+         keywordField.setText("");
          clearTable();
          fillTable();
       
@@ -38,43 +39,33 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
     add(BorderLayout.CENTER, new JScrollPane(resultsTable));
     
     fillTable();
-      
+    //resultsTable.setEnabled(false);  
    }
    
    public void actionPerformed(ActionEvent e) {
-      Object src = e.getSource();
-      // if(src == searchButton){
-         System.out.println("search");
-         ConnectDB db = new ConnectDB();
-		   BusinessLayer bl = new BusinessLayer(db);
-		   try 
+      ConnectDB db = new ConnectDB();
+	   BusinessLayer bl = new BusinessLayer(db);
+	   try 
+	   {
+		   if(db.connect())
 		   {
-			   if(db.connect())
-			   {
-               System.out.println("Connected to Database");
-               String keyword = keywordField.getText().trim();
-    
-                if (keyword.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Enter a keyword.");
-                    return;
-                }
-            
-               //clear the table
-               clearTable();
+            String keyword = keywordField.getText().trim();
+ 
+             if (keyword.isEmpty()) {
+                 JOptionPane.showMessageDialog(this, "Enter a keyword.");
+                 return;
+             }
+         
+            //clear the table
+            clearTable();
 
-               ((DefaultTableModel) resultsTable.getModel()).addRow(bl.keywordSearch(keyword));
-            }
-          }catch(SQLException se){
-            se.printStackTrace();
-          }catch(ClassNotFoundException ce){
-            ce.printStackTrace();
-          }
-      
-      // }else if(src == refreshButton){
-//          System.out.println("refresh");
-//          clearTable();
-//          fillTable();
-//       }
+            ((DefaultTableModel) resultsTable.getModel()).addRow(bl.keywordSearch(keyword));
+         }
+       }catch(SQLException se){
+         se.printStackTrace();
+       }catch(ClassNotFoundException ce){
+         ce.printStackTrace();
+       }
          
    }//end actionPRepared
    

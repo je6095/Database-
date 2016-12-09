@@ -127,8 +127,13 @@ public class ConnectDB
          //if there is stuff in the list then we set them as variables
          if(list.size() > 0){
             for(int i=1;i<=list.size();i++){
-               String temp = list.get(i-1);
-               stmt.setString(i,temp);
+               try{
+                  int temp = Integer.parseInt(list.get(i-1));
+                  stmt.setInt(i,temp);
+               }catch(NumberFormatException e){
+                  String temp = list.get(i-1);
+                  stmt.setString(i,temp);
+               }
             }
          }
 			
