@@ -129,11 +129,11 @@ public class ConnectDB
             for(int i=1;i<=list.size();i++){
                try{
                   int temp = Integer.parseInt(list.get(i-1));
-                  System.out.println(temp+"--"+i);
+                  //System.out.println(temp+"--"+i);
                   stmt.setInt(i,temp);
                }catch(NumberFormatException e){
                   String temp = list.get(i-1);
-                  System.out.println(temp+"--"+i);
+                  //System.out.println(temp+"--"+i);
                   stmt.setString(i,temp);
                }
             }

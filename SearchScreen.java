@@ -14,6 +14,7 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
    private JButton refreshButton;
    
    public SearchScreen(ResearchGUI gui){
+    this.reGUI = gui;
     setLayout(new BorderLayout());
     
     JPanel searchPanel = new JPanel(new FlowLayout());
@@ -74,8 +75,10 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
 		   BusinessLayer bl = new BusinessLayer(db);
 		   try 
 		   {
+            
 			   if(db.connect())
 			   {
+               reGUI.setDB(db);
                System.out.println("Connected to Database");
             
                //clear the table

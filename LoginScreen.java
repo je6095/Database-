@@ -97,6 +97,7 @@ public class LoginScreen extends JPanel implements ActionListener{ // extends JP
    					   JOptionPane.showMessageDialog(this, "Login Successful.");
    					   reGUI.swapView("Faculty Admin");
                      reGUI.setFaculty(obj);
+                     reGUI.setDB(db);
                      facScreen.fillTable();
    				   }
    				   else

@@ -1,6 +1,8 @@
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
 
 //this is the main view class there are subclasses for each screen.
 public class ResearchGUI extends JFrame{
@@ -12,6 +14,7 @@ public class ResearchGUI extends JFrame{
    private CardLayout cardlayout = new CardLayout();
    private JPanel cards = new JPanel(cardlayout);
    private BusinessLayer currentFaculty=null;
+   private ConnectDB connect = null;
    
    //this holds all of the components
    public ResearchGUI(){
@@ -35,8 +38,18 @@ public class ResearchGUI extends JFrame{
       pack();
       //setResizable(false);
       setLocationRelativeTo(null);
-      setDefaultCloseOperation(EXIT_ON_CLOSE);
       setVisible(true);
+      this.addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                  try{
+                    connect.close();
+                 }catch(SQLException se){
+                     se.printStackTrace();
+                     System.exit(0);
+                 }
+                    System.exit(1);
+                }
+            });
    }
    
    //builds and deploys the gui
@@ -55,5 +68,7 @@ public class ResearchGUI extends JFrame{
    public BusinessLayer getFaculty(){
       return this.currentFaculty;
    }
-   
+   public void setDB(ConnectDB db){
+      this.connect = db;
+   }
 }
