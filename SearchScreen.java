@@ -25,7 +25,13 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
     searchPanel.add(searchButton);
     
     refreshButton = new JButton("Refresh");
-    refreshButton.addActionListener(this);
+    refreshButton.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+         clearTable();
+         fillTable();
+      
+      }
+    });
     searchPanel.add(refreshButton);
     
     add(BorderLayout.NORTH, searchPanel);
