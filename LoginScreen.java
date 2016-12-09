@@ -8,13 +8,15 @@ import java.sql.SQLException;
 public class LoginScreen extends JPanel implements ActionListener{ // extends JPanel implements ActionListener{ //Login GUI - for logging into the system, checks if you are faculty, student, or other.
    
    private ResearchGUI reGUI;
+   private FacultyScreen facScreen;
 	JTextField jtfUsername;
 	JPasswordField jtfPassword;
 	JButton jbEnter;
    JButton jbMiscStudent;
 	
-	public LoginScreen(ResearchGUI gui){
+	public LoginScreen(ResearchGUI gui, FacultyScreen fac){
       this.reGUI = gui;
+      this.facScreen = fac;
       setLayout(new GridBagLayout());
       GridBagConstraints c = new GridBagConstraints();
       
@@ -94,6 +96,8 @@ public class LoginScreen extends JPanel implements ActionListener{ // extends JP
    				   {
    					   JOptionPane.showMessageDialog(this, "Login Successful.");
    					   reGUI.swapView("Faculty Admin");
+                     reGUI.setFaculty(obj);
+                     facScreen.fillTable();
    				   }
    				   else
    				   {

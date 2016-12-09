@@ -11,6 +11,7 @@ public class ResearchGUI extends JFrame{
    
    private CardLayout cardlayout = new CardLayout();
    private JPanel cards = new JPanel(cardlayout);
+   private BusinessLayer currentFaculty=null;
    
    //this holds all of the components
    public ResearchGUI(){
@@ -18,8 +19,8 @@ public class ResearchGUI extends JFrame{
       //base JPanel
          JPanel jpMain = new JPanel();
          //create the cards
-            LoginScreen ls = new LoginScreen(this);
             FacultyScreen fs = new FacultyScreen(this);
+            LoginScreen ls = new LoginScreen(this,fs);
             SearchScreen ss = new SearchScreen(this);
             InfoScreen is = new InfoScreen(this);
             
@@ -45,6 +46,14 @@ public class ResearchGUI extends JFrame{
    
    public void swapView(String key) {
       cardlayout.show(cards, key);
+   }
+   
+   public void setFaculty(BusinessLayer curr){
+      this.currentFaculty = curr;
+   }
+   
+   public BusinessLayer getFaculty(){
+      return this.currentFaculty;
    }
    
 }

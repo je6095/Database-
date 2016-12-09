@@ -1,16 +1,20 @@
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 public class FacultyScreen extends JPanel implements ActionListener{ //Faculty Admin GUI                         
    
-   JRadioButton jrbUpdate;
-   JRadioButton jrbInsert;
-   JRadioButton jrbDelete;
-   ButtonGroup group;
+   private JRadioButton jrbUpdate;
+   private JRadioButton jrbInsert;
+   private JRadioButton jrbDelete;
+   private ButtonGroup group;
    private ResearchGUI reGUI;
    private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation"}, 0));
+   JButton jbAll;
+   JButton jbEnter;
    
    public FacultyScreen(ResearchGUI gui){
     this.reGUI = gui;
@@ -39,49 +43,49 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
          
          add(jpRadio,BorderLayout.NORTH);
       
-      JPanel jpData = new JPanel(new GridBagLayout());
-         JLabel jlTitle = new JLabel("Title");
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.anchor = GridBagConstraints.WEST;
-         c.gridx = 0;
-         c.gridy = 0;
-         jpData.add(jlTitle, c);
-
-         JTextField jtfTitle = new JTextField(30);
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.anchor = GridBagConstraints.WEST;
-         c.gridx = 1;
-         c.gridy = 0;
-         jpData.add(jtfTitle,c);
-         
-         JLabel jlCitation = new JLabel("Citation");
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.anchor = GridBagConstraints.EAST;
-         c.gridx = 0;
-         c.gridy = 1;
-         jpData.add(jlCitation,c);
-         
-         JTextField jtfCitation = new JTextField(30);
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.anchor = GridBagConstraints.EAST;
-         c.gridx = 1;
-         c.gridy = 1;
-         jpData.add(jtfCitation,c);
-         
-         
-      add(jpData,BorderLayout.CENTER);
+      add(BorderLayout.CENTER, new JScrollPane(resultsTable));
       
-      JButton jbEnter = new JButton("Enter");
-      add(jbEnter,BorderLayout.SOUTH);
+      JPanel jpButtons = new JPanel();
+         JButton jbEnter = new JButton("Enter");
+         jbEnter.addActionListener(this);
+         jpButtons.add(jbEnter);
+         
+         JButton jbAll = new JButton("View All Papers");
+         jbAll.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+               reGUI.swapView("Search for papers");
+            }
+         });
+         jpButtons.add(jbAll);
+         
+      add(jpButtons,BorderLayout.SOUTH);
    }//end of constructor
    
    //for the insert and update buttons
-    @Override
     public void actionPerformed(ActionEvent e) {
-      
+      System.out.println("they hit enter");
     }
-    
-    public void createObject(){
-    
-    }
+   
+   public void fillTable(){
+      ConnectDB db = new ConnectDB();
+	   BusinessLayer bl = reGUI.getFaculty();
+	   try 
+	   {
+		   if(db.connect())
+		   {
+            System.out.println("Connected to Database");
+            
+            int id = reGUI.getFaculty().getID();
+
+            ArrayList<Object[]> papers = bl.getFacultyPapers(id); // returns arraylist of objects
+            for(int i=0;i<papers.size();i++){
+               ((DefaultTableModel) resultsTable.getModel()).addRow(papers.get(i));
+            }
+         }
+       }catch(SQLException se){
+         se.printStackTrace();
+       }catch(ClassNotFoundException ce){
+         ce.printStackTrace();
+       }
+   }
 }

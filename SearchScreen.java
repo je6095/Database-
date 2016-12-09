@@ -20,11 +20,11 @@ public class SearchScreen extends JPanel implements ActionListener{// Search GUI
     searchPanel.add(new JLabel("Keyword: "));
     searchPanel.add(keywordField);
     
-    JButton searchButton = new JButton("Search");
+    searchButton = new JButton("Search");
     searchButton.addActionListener(this);
     searchPanel.add(searchButton);
     
-    JButton refreshButton = new JButton("Refresh");
+    refreshButton = new JButton("Refresh");
     refreshButton.addActionListener(this);
     searchPanel.add(refreshButton);
     

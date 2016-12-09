@@ -297,5 +297,32 @@ public class BusinessLayer
       
       return papers;
    }
+   
+   public ArrayList<Object[]> getFacultyPapers(int id){ //these papers are specific to each faculty
+      ArrayList<Object[]> papers = new ArrayList<Object[]>();
+      
+      try {
+        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers"+
+                      "INNER JOIN authorship ON papers.id = authorship.paperId" +
+                      "INNER JOIN faculty ON authorship.facultyId = faculty.id" +
+                      "WHERE faculty.id="+id;
+        
+        PreparedStatement stmt = database.prepare(sql,new ArrayList<String>());
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            String title = rs.getString(1);
+            String abstracts = rs.getString(2);
+            String citation = rs.getString(3);
+
+            Object[] temp = new Object[]{title,abstracts,citation};
+            papers.add(temp);
+        }
+       } catch (Exception ex) {
+           ex.printStackTrace(System.out);
+       }
+      
+      return papers;
+   }
 	
 }
