@@ -12,7 +12,7 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
    private JRadioButton jrbDelete;
    private ButtonGroup group;
    private ResearchGUI reGUI;
-   private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation"}, 0));
+   private JTable resultsTable = new JTable(new DefaultTableModel(new Object[]{"Paper Title","Abstract","Citation","id"}, 0));
    private JButton jbAll;
    private JButton jbEnter;
    
@@ -71,6 +71,19 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
       }else{
          if(actionSelection == "Update"){
             System.out.println("Update");
+            //System.out.println(resultsTable.getValueAt(rowIndex,0));
+            String title = (String)resultsTable.getValueAt(rowIndex,0);
+            String paper_abstract = (String)resultsTable.getValueAt(rowIndex,1);
+            String citation = (String)resultsTable.getValueAt(rowIndex,2);
+            int paper_id = (int)resultsTable.getModel().getValueAt(resultsTable.getSelectedRow(),3);
+            //System.out.println(paper_id);
+            try{
+               reGUI.getFaculty().update(paper_id,title,paper_abstract,citation);
+               // clearTable();
+//                fillTable();
+            }catch(SQLException se){
+               se.printStackTrace();
+            }
          }else if(actionSelection == "Insert"){
             System.out.println("Insert");
          }else if(actionSelection == "Delete"){
@@ -87,8 +100,15 @@ public class FacultyScreen extends JPanel implements ActionListener{ //Faculty A
             for(int i=0;i<papers.size();i++){
                ((DefaultTableModel) resultsTable.getModel()).addRow(papers.get(i));
             }
+            resultsTable.removeColumn(resultsTable.getColumnModel().getColumn(3));
           }catch(Exception e){
             e.printStackTrace();
           }
    }//end fillTable
+   
+   public void clearTable(){
+      while (((DefaultTableModel) resultsTable.getModel()).getRowCount() > 0) {
+         ((DefaultTableModel) resultsTable.getModel()).removeRow(0);
+      }
+   }
  }

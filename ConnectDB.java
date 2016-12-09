@@ -129,9 +129,11 @@ public class ConnectDB
             for(int i=1;i<=list.size();i++){
                try{
                   int temp = Integer.parseInt(list.get(i-1));
+                  System.out.println(temp+"--"+i);
                   stmt.setInt(i,temp);
                }catch(NumberFormatException e){
                   String temp = list.get(i-1);
+                  System.out.println(temp+"--"+i);
                   stmt.setString(i,temp);
                }
             }
@@ -149,14 +151,16 @@ public class ConnectDB
 	{	
 		boolean updated = false;
 		PreparedStatement st = prepare(query, set);
+      int numCount = 0;
 		try
 		{
-			rs = st.executeQuery();
+			numCount = st.executeUpdate();
 			updated = true;
-			System.out.println("Query Successful");
+			System.out.println("Query Successful - # Records:"+numCount);
 		}
 		catch(SQLException e)
 		{
+         e.printStackTrace();
 			System.out.println("Error");
 			updated = false;
 		}

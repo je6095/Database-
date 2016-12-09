@@ -190,15 +190,22 @@ public class BusinessLayer
 	 INSERT uses a prepared statement and an arraylist filled with the parameter values. 
 	 INSERT then calls setData which should execute the query and a New entry will be created.  
 	**/
-	public void insert( int id , String title, String ab, String citation ) throws SQLException
+	public void insert( int id , String title, String ab, String citation, int facId ) throws SQLException
 	{
-		String query = "INSERT INTO papers (" + id + ",'" + title + "','" + ab + "'," + citation + ")" + " VALUES " + "(?,?,?,?)";
+		String query = "INSERT INTO papers VALUES (?,?,?,?)";
 		ArrayList<String> set = new ArrayList<String>();
 		set.add(Integer.toString(id));
 		set.add(title);
 		set.add(ab);
 		set.add(citation);
 		database.setData(query, set);
+      /**
+      query = "INSERT INTO authorship VALUES(?,?)";
+      ArrayList<String> set_author = new ArrayList<String>();
+      set_author.add(Integer.toString(facId));
+      set_author.add(Integer.toString(id));
+      database.setData( query, set);
+      */
 	}
 	
 	/**
@@ -209,16 +216,18 @@ public class BusinessLayer
 	 UPDATE uses a prepared statement and an arraylist filled with the parameter values. 
 	 UPDATE then calls setData which should execute the query and a New entry will be created.  
 	**/
-	public void update( int id , String title, String ab, String citation ) throws SQLException
+	public void update( int id , String title, String ab, String citation) throws SQLException
 	{
 		String query = "UPDATE papers SET title = ?" + ",abstract = ?" + " ,citation = ?" + " WHERE id = ?;";
+      //System.out.println(query);
 		ArrayList<String> set = new ArrayList<String>();
-		set.add(Integer.toString(id));
 		set.add(title);
 		set.add(ab);
 		set.add(citation);
+      set.add(Integer.toString(id));
+      //System.out.println(set.toString());
 		database.setData( query, set);
-	}
+  	}
 	
 	/**
 	 To DELETE the gui will prompt the user to select which paper to delete
@@ -304,7 +313,7 @@ public class BusinessLayer
       
       try {
          System.out.println();
-        String sql = "SELECT papers.title, papers.abstract, papers.citation FROM papers INNER JOIN authorship ON papers.id = authorship.paperId INNER JOIN faculty ON authorship.facultyId = faculty.id WHERE faculty.id="+id;
+        String sql = "SELECT papers.title, papers.abstract, papers.citation, papers.id FROM papers INNER JOIN authorship ON papers.id = authorship.paperId INNER JOIN faculty ON authorship.facultyId = faculty.id WHERE faculty.id="+id;
         
         PreparedStatement stmt = database.prepare(sql,new ArrayList<String>());
         ResultSet rs = stmt.executeQuery();
@@ -313,8 +322,9 @@ public class BusinessLayer
             String title = rs.getString(1);
             String abstracts = rs.getString(2);
             String citation = rs.getString(3);
+            int papers_id = rs.getInt(4);
 
-            Object[] temp = new Object[]{title,abstracts,citation};
+            Object[] temp = new Object[]{title,abstracts,citation,papers_id};
             papers.add(temp);
         }
        } catch (Exception ex) {
